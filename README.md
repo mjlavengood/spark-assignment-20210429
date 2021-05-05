@@ -12,6 +12,7 @@ After generating a list of match candidates based on birth year, I concatenate t
 
 My result file has 1193 matches with the following schema:
 
+```
 uk_id: string (UK Sanctions List Ref extracted from the "Other Information" field)
 us_id: long ("uid" field from US data)
 entity_type: string ("Individual", "Entity", or "Vessel" from "sdnType" in US data)
@@ -20,6 +21,7 @@ us_birth_year_ranges: array[array[string]] (US birth year ranges for which match
 fullname_similarity: double (max TF-IDF cosine similarity score between UK and US fullnames)
 full_name_uk: array[string] (UK full name strings used for comparison)
 full_name_us: array[string] (US full name strings used for comparison)
+```
 
 Due to time constraints, I decided to stop here. Future improvement points would include verifying company matching accuracy, improving the performance of the fuzzy string match (probably by using other fields to make more narrow initial preliminary matches), and general code improvement (unit tests, refactoring, repo structure etc). Down the line, it would probably best to use a more holistic probabilistic model which considers all fields simultaneously, weighted by importance, to make a general match score for all candidate record pairs.
 
