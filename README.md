@@ -12,7 +12,7 @@ spark-submit  --packages com.databricks:spark-xml_2.12:0.12.0  --master local sc
 
 The goal of this exercise is to identify entities appearing in both the UK Treasury sanctions data (ConList.csv) and the US sanctions data from OFAC (sdn.xml).
 
-Due to time constraints and the difficulty of working with this heterogenous data, I ended up using only the Name fields and the date of birth fields in the respective data - "DOB" and "Name 1" - "Name 6" in the UK data, and "dateOfBirthList", "firstName", and "lastName" (main and AKAs) in the US data.
+Due to time constraints and the complexity of working with this heterogenous data, I ended up using only the Name fields and the date of birth fields in the respective data - "DOB" and "Name 1" - "Name 6" in the UK data, and "dateOfBirthList", "firstName", and "lastName" (main and AKAs) in the US data.
 
 Since the fuzzy string comparison is rather performance-intensive, I initially do a birth year comparison to narrow down potetial matches from a full Cartesian join. I use year rather than date because the exact birthdates seem inconsistent, and many records only include the year or approximate year anyway. I use regex to extract year information from the given birthdates. Since the US sometimes includes ranges instead of single dates, I calculate a min and max year for each US birthdate entry, and match it to UK records with a birth year between the min and max date. I then calculate pairs of records for which there is a birth year match, or for which no birth year data is available for one or both records (so that companies, vessels, and persons with incomplete data are still kept as candidates for matching).
 
@@ -33,4 +33,4 @@ full_name_uk: array[string] (UK full name strings used for comparison)
 full_name_us: array[string] (US full name strings used for comparison)
 ```
 
-Due to time constraints, I decided to stop here. Future improvement points would include verifying company matching accuracy, improving the performance of the fuzzy string match (probably by using other fields to make more narrow initial preliminary matches), and general code improvement (unit tests, refactoring, repo structure etc). Down the line, it would probably best to use a more holistic probabilistic model which considers all fields simultaneously, weighted by importance, to make a general match score for all candidate record pairs.
+I decided to stop here - future improvement points would include verifying company matching accuracy, improving the performance of the fuzzy string match (probably by using other fields to make more narrow initial preliminary matches), and general code improvement (unit tests, refactoring, repo structure etc). Down the line, it would probably best to use a more holistic probabilistic model which considers all fields simultaneously, weighted by importance, to make a general match score for all candidate record pairs.
