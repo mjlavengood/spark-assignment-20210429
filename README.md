@@ -25,7 +25,7 @@ full_name_us: array[string] (US full name strings used for comparison)
 
 Due to time constraints, I decided to stop here. Future improvement points would include verifying company matching accuracy, improving the performance of the fuzzy string match (probably by using other fields to make more narrow initial preliminary matches), and general code improvement (unit tests, refactoring, repo structure etc). Down the line, it would probably best to use a more holistic probabilistic model which considers all fields simultaneously, weighted by importance, to make a general match score for all candidate record pairs.
 
-The script can be run by cd'ing into the repository root directory and running following command (tested with Python 3.6.9 and Spark 3.1.1). Unfortunately it still takes around 2 hours to run locally on my laptop.  
+The script can be run by cd'ing into the repository root directory and running following command (tested with Python 3.6.9 and Spark 3.1.1). Unfortunately it still takes around 2 hours to run locally on my laptop, but I included the results in the repo in case you just want to look directly at those.
 
 ```
 spark-submit  --packages com.databricks:spark-xml_2.12:0.12.0  --master local script.py
