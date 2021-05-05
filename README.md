@@ -1,5 +1,15 @@
 # Sayari Spark Assignment
 
+### How to Run
+
+The script can be run by cd'ing into the repository root directory and running following command (tested with Python 3.6.9 and Spark 3.1.1). Unfortunately it still takes around 2 hours to run locally on my laptop, but I included the results in the repo under `result/` in case you just want to look directly at those.
+
+```
+spark-submit  --packages com.databricks:spark-xml_2.12:0.12.0  --master local script.py
+```
+
+### Background info and explanation
+
 The goal of this exercise is to identify entities appearing in both the UK Treasury sanctions data (ConList.csv) and the US sanctions data from OFAC (sdn.xml).
 
 Due to time constraints and the difficulty of working with this heterogenous data, I ended up using only the Name fields and the date of birth fields in the respective data - "DOB" and "Name 1" - "Name 6" in the UK data, and "dateOfBirthList", "firstName", and "lastName" (main and AKAs) in the US data.
@@ -24,9 +34,3 @@ full_name_us: array[string] (US full name strings used for comparison)
 ```
 
 Due to time constraints, I decided to stop here. Future improvement points would include verifying company matching accuracy, improving the performance of the fuzzy string match (probably by using other fields to make more narrow initial preliminary matches), and general code improvement (unit tests, refactoring, repo structure etc). Down the line, it would probably best to use a more holistic probabilistic model which considers all fields simultaneously, weighted by importance, to make a general match score for all candidate record pairs.
-
-The script can be run by cd'ing into the repository root directory and running following command (tested with Python 3.6.9 and Spark 3.1.1). Unfortunately it still takes around 2 hours to run locally on my laptop, but I included the results in the repo under `result/` in case you just want to look directly at those.
-
-```
-spark-submit  --packages com.databricks:spark-xml_2.12:0.12.0  --master local script.py
-```
